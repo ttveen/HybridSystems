@@ -1,0 +1,46 @@
+\subsection*{Step 2.6}
+
+\begin{align*}
+& \underline{x}_D \leq x_d(k) \leq \Bar{x}_d \\
+& 0 \leq u_d(k) \leq \Bar{u}_d \\
+& \text{if } s_d(k) = 0 \Rightarrow \text{there is no power generation at time step } k 
+\end{align*}
+
+\begin{align*}
+[\delta_1 = 1] \Leftrightarrow [u_d(k) \geq 0] \text{ true iff}
+&\left\{\begin{matrix*}[l]
+    -u_d(k) \leq 0 \\
+    u_d(k) - (u_1 + \epsilon)\delta_i(k) \leq -\epsilon
+\end{matrix*}\right. \\
+[\delta_2 = 1] \Leftrightarrow [u_d(k)-u_1 \geq 0] \text{ true iff}
+&\left\{\begin{matrix*}[l]
+    -u_d(k) -u_1\delta_2(k) \leq -2u_1 \\
+    u_d(k) - (u_2 + \epsilon)\delta_i(k) \leq -\epsilon + u_1
+\end{matrix*}\right. \\
+[\delta_3 = 1] \Leftrightarrow [u_d(k)-u_2 \geq 0] \text{ true iff}
+&\left\{\begin{matrix*}[l]
+    -u_d(k) -u_2\delta_3(k) \leq -2u_2 \\
+    u_d(k) - (u_3 + \epsilon)\delta_i(k) \leq -\epsilon + u_2
+\end{matrix*}\right. \\
+[\delta_4 = 1] \Leftrightarrow [u_d(k)-u_3 \geq 0] \text{ true iff}
+&\left\{\begin{matrix*}[l]
+    -u_d(k) -u_3\delta_4(k) \leq -2u_3 \\
+    u_d(k) - (\Bar{u}_d + \epsilon)\delta_i(k) \leq -\epsilon + u_3
+\end{matrix*}\right.
+\end{align*}
+
+$$
+\hat{f}(u_d(k)) = \delta_1(a_1+b1u_d(k)) + \delta_2(a_2+b2u_d(k)) + \delta_3(a_3+b3u_d(k)) + \delta_4(a_4+b4u_d(k)) 
+$$
+
+% $$
+% [\delta_2 = 1] \Leftrightarrow [u_1-u_d(k) \leq 0] \text{ true iff }
+% \left\{\begin{matrix*}[l] -u_d(k) \leq u_2(1-\delta_2)-u_1 \\ u_d(k) \geq \epsilon + (m-\epsilon)\delta_2 \ \end{matrix*}\right.
+% $$
+
+% $$
+% [\delta_2 = 1] \Leftrightarrow [u_1-u_d(k) \leq 0] \text{ true iff }
+% \left\{\begin{matrix*}[l] \\ \end{matrix*}\right.
+% $$
+
+% the Mixed logical dynamical (MLD) system can then be constructed as  
