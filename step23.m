@@ -86,7 +86,7 @@ ylabel({'function value'},'Interpreter', 'latex')
 legend({'$f(u_d(k))$','$\hat{f}(u_d(k))$'},'Interpreter', 'latex')
 step23plot = gcf;
 %Save the plot
-saveas(step23plot,'Data/step23','eps')
+saveas(step23plot,'Latex/images/step23','eps')
 %Save the parameters
 save('Data/step23.mat', 'par')
 %% Functions
