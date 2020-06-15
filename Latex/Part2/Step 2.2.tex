@@ -1,0 +1,49 @@
+\subsection*{Step 2.2}
+After introducing the following constraints, the PWA system can be cast into a MLD system
+$$
+\begin{array}{l}
+0 \leq x_{\mathrm{b}}(k) \leq \bar{x}_{\mathrm{b}} \\
+\underline{u}_{\mathrm{b}} \leq u_{\mathrm{b}}(k) \leq \bar{u}_{\mathrm{b}} \\
+\text { if } s_{\mathrm{b}}(k)=1 \Rightarrow u_{\mathrm{b}}(k) \leq 0 \\
+\text { if } s_{\mathrm{b}}(k)=0 \Rightarrow u_{\mathrm{b}}(k)>0
+\end{array}
+$$
+The general MLD form is as follows
+$$
+\begin{array}{l}
+x(k+1)=A x(k)+B_{1} u(k)+B_{2} \delta(k)+B_{3} z(k)+B_{4} \\
+E_{1} x(k)+E_{2} u(k)+E_{3} \delta(k)+E_{4} z(k) \leq g_{5}
+\end{array}
+$$
+To determine the matrices $A$, $B_i$, $E_i$ and $g_5$, the binary variable $\delta(k)$ is introduced to the condition $s_b(k) = 1$
+$$
+[\delta(k) = s_b(k) = 1] \Leftrightarrow [u_b(k) \leq 0]
+$$
+This condition is true iff
+\begin{align*}
+u_b(k) &\leq \bar{u}_b(1-\delta(k))\\
+u_b(k) &\geq \epsilon + (\underline{u}_b-\epsilon)\delta(k))
+\end{align*}
+The bounds on the state $u_b$ can be expressed as, with auxiliary $z(k) = \delta(k)z(k)$
+$$
+\begin{array}{l}
+z(k) \leq \bar{u}_b \delta(k) \\
+z(k) \geq \underline{u}_b \delta(k) \\
+z(k) \leq u_b(k)-\underline{u}_b(1-\delta(k)) \\
+z(k) \geq u_b(k)-\bar{u}_b(1-\delta(k))
+\end{array}
+$$
+Since the bounds on $x_b$ do not depend on decision variable $s_b(k)$, they can be directly incorporated to the general MLD form. There are six constraints on the input, and two constraints on the state, so the general MLD form becomes
+\begin{align}
+    f(x_b(k),u_b(k)) &= x_b(k) - (\eta_c - \eta_d)T_s\delta(k)u_b(k) - \eta_dT_su_b(k) \nonumber\\
+    f(x_b(k),u_b(k)) &= x_b(k) - (\eta_c - \eta_d)T_sz(k) - \eta_dT_su_b(k) \label{eq:2.1MLDdynamics}
+\end{align}
+with the constraints
+From equation \ref{eq:2.1MLDdynamics} it follows that $A = 1$, $B_1 = \eta_dT_s$, $B3 = 0$, $B_3 = (\eta_c - \eta_d)T_s$ and $B_4 = 0$. $E_1,\dots,E_4,g_5$ are vectors that contain the MLD system inequality values, which are equal to
+$$
+\underbrace{\begin{bmatrix} -1 \\ 1 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \end{bmatrix}}_{E_1}x_b(k) + 
+\underbrace{\begin{bmatrix} 0 \\ 0 \\ -1 \\ 1 \\ 1 \\ -1 \\ 0 \\ 0 \\ -1 \\ 1 \end{bmatrix}}_{E_2}u_b(k) + 
+\underbrace{\begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ -\bar{u}_b \\ (\underline{u}_b-\epsilon) \\ -\bar{u}_b \\ \underline{u}_b \\ -\underline{u}_b \\ \bar{u}_b \end{bmatrix}}_{E_3}\delta(k) +
+\underbrace{\begin{bmatrix} 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 0 \\ 1 \\ -1 \\ 1 \\ -1 \end{bmatrix}}_{E_4}z(k) \leq
+\underbrace{\begin{bmatrix} 0 \\ \bar{x}_b \\ -\underline{u}_b \\ \bar{u}_b \\ \bar{u}_b \\ -\epsilon \\ 0 \\ 0 \\ -\underline{u}_b \\ \bar{u}_b \end{bmatrix}}_{g_5}
+$$
