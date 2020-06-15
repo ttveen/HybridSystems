@@ -7,7 +7,6 @@ parmin = fmincon(@funcost,x0,[],[],[],[],[],[],@nonlincon);
 par24.a1 = parmin(1); par24.a2 = parmin(2); par24.a3 = parmin(3); par24.a4 = parmin(4);
 par24.b1 = parmin(5); par24.b2 = parmin(6); par24.b3 = parmin(7); par24.b4 = parmin(8);
 par24.u1 = parmin(9); par24.u2 = parmin(10); par24.u3 = parmin(11);
-% funcost([1 2 3 4 5 6 1 8 5 7 10])
 %% Plot
 syms ud
 f1 = piecewise(0<=ud<2, ud^2+4,...
@@ -23,6 +22,26 @@ figure()
 hold on
 fplot(f1,[0 15])
 fplot(f2,[0 15])
+hold off
+xlabel({'$u_d(k)$'},'Interpreter', 'latex')
+ylabel({'function value'},'Interpreter', 'latex')
+legend({'$f(u_d(k))$','$\hat{f}(u_d(k))$'},'Interpreter', 'latex')
+%% Create table
+
+f = figure;
+uit = uitable(f);
+%uit.ColumName = {'a','b','u'};
+uit.Data = [par24.a1, par24.b1, par24.u1;
+     par24.a2, par24.b2, par24.u2;
+     par24.a3, par24.b3, par24.u3;
+     par24.a4, par24.b4, ' '];
+ 
+%% Save the data
+step24plot = gcf;
+%Save the plot
+saveaspdf(step24plot,'Latex/images/step24')
+%Save the parameters
+save('Data/step24.mat', 'par')
 %% Functions
 function cost = funcost(x)
     syms ud
@@ -32,13 +51,6 @@ function cost = funcost(x)
                7<=ud<9, -11.78*ud+132.44,...
                9<=ud<=15, 4.01*(ud-10.47)^2+17.79);
            
-%    syms a1 a2 a3 a4
-%    syms b1 b2 b3 b4
-%    syms u1 u2 u3
-%    abVec = [a1 a2 a3 a4 b1 b2 b3 b4 u1 u2 u3];
-% %    u1 = 5;
-% %    u2 = 6.5;
-% %    u3 = 11;
     a1 = x(1); a2 = x(2); a3 = x(3); a4 = x(4);
     b1 = x(5); b2 = x(6); b3 = x(7); b4 = x(8);
     u1 = x(9); u2 = x(10); u3 = x(11);
@@ -47,7 +59,6 @@ function cost = funcost(x)
        u2<=ud<u3, a3+b3*ud,...
        u3<=ud<=15, a4+b4*ud);
    
-   %subs(f2,abVec,x);
    cost = double(int((f1-f2)^2,ud,0,15));
 end
 function [c,ceq] = nonlincon(x)
@@ -56,27 +67,3 @@ function [c,ceq] = nonlincon(x)
            x(2)+x(6)*x(10) - (x(3)+x(7)*x(10));
            x(3)+x(7)*x(11) - (x(4)+x(8)*x(11))];
 end
-
-% function f1 = funf1(x)
-%     a1 = x(1); b1 = x(2); u_1 = x(3);
-%     fun1 = @(u,a1,b1) (u.^2 + 4 - (a1+b1*u)).^2;
-%     fun2 = @(u,a1,b1) (4*u - (a1+b1*u)).^2;
-%     f1 = integral(@(u) fun1(u,a1,b1),0,2) + integral(@(u) fun2(u,a1,b1),2,5);
-% end
-% function f2 = funf2(x)
-%     a2 = x(1); b2 = x(2);
-%     fun1 = @(u,a2,b2) ((-9.44*u.^3 + 166.06*u.^2 - 948.22*u + 1790.28) - (a2+b2*u)).^2;
-%     f2 = integral(@(u) fun1(u,a2,b2),5,6.5);
-% end
-% function f3 = funf3(x) 
-%     a3 = x(1); b3 = x(2);
-%     fun1 = @(u,a3,b3) ((-9.44*u.^3 + 166.06*u.^2 - 948.22*u + 1790.28) - (a3+b3*u)).^2;
-%     fun2 = @(u,a3,b3) ((-11.78*u + 132.44) - (a3+b3*u)).^2;
-%     fun3 = @(u,a3,b3) ((4.01*(u -10.47) + 17.79) - (a3+b3*u)).^2;
-%     f3 = integral(@(u) fun1(u,a3,b3),6.5,7) + integral(@(u) fun2(u,a3,b3),7,9) + integral(@(u) fun3(u,a3,b3),9,11);
-% end
-% function f4 = funf4(x)
-%     a4 = x(1); b4 = x(2);
-%     fun1 = @(u,a4,b4) ((4.01*(u -10.47).^2 + 17.79) - (a4+b4*u)).^2;
-%     f4 = integral(@(u) fun1(u,a4,b4),11,15);
-% end

@@ -26,12 +26,26 @@ hold off
 xlabel({'$u_d(k)$'},'Interpreter', 'latex')
 ylabel({'function value'},'Interpreter', 'latex')
 legend({'$f(u_d(k))$','$\hat{f}(u_d(k))$'},'Interpreter', 'latex')
+
+
 %% Save the data
 step24plot = gcf;
 %Save the plot
 saveaspdf(step24plot,'Latex/images/step24')
 %Save the parameters
 save('Data/step24.mat', 'par')
+%% Create table
+
+f = figure;
+uit = uitable(f);
+uit.ColumnName = {'a','b','u'};
+uit.Data = {par24.a1, par24.b1, par24.u1;
+     par24.a2, par24.b2, par24.u2;
+     par24.a3, par24.b3, par24.u3;
+     par24.a4, par24.b4, ' '};
+ uit.Position = [20,20,310,110];
+%  uit.InnerPosition([20 20 250 100])
+ saveaspdf(f,'Latex/images/step24table')
 %% Functions
 function cost = funcost(x)
     syms ud
