@@ -53,20 +53,11 @@ s_b4 = sol.b4;
 s_b = double([s_b1; s_b2; s_b3; s_b4]);
 %% Plot the AWP comparison
 figure ('Name','AWP Comparison')
-xlabel('');
-ylabel('');
+xlabel('xlabel');
+ylabel('ylabel');
 hold on
 fplot(f1,[0 15])
 fplot(f2(s_a1,s_a2,s_a3,s_a4,s_b1,s_b2,s_b3,s_b4),[0 15])
 hold off
 
-% pos = get(gcf,'Position');
-% figWidth = pos(3);
-% figHeight = pos(4);
-% figSize = [figWidth, figHeight];
-% 
-% set(gcf, 'PaperPosition', [0 0 figWidth figHeight]); %Position plot at left hand corner with width 5 and height 5.
-% set(gcf, 'PaperSize', figSize); %Set the paper to have width 5 and height 5.
-% saveas(gcf, 'test','pdf'); %Save figure
-
-saveaspdf(gcf,'test.pdf')
+saveaspdf(gcf,'Latex/images/part23Sym.pdf')
