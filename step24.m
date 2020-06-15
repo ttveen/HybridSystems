@@ -1,4 +1,12 @@
 %% Step 2.4
+% The objective is to minimise a cost function, given in the assignment.
+% The difference between this step and step 2.3, is that now we have to
+% optimize over the boundaries u_i. The previous method does not work
+% anymore. This files has one function, that computes the cost, as a
+% function of a_i, b_i and u_i. 3 nonlinear constraints ensure that the 
+% function have matching boundaries fmincon() is used to find a local minima.
+% The parameters from step 2.3 are used for initial estimation.
+
 close all
 clear all
 
