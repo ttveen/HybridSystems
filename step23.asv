@@ -50,7 +50,8 @@ beq = par.a3+par.b3*u3;
 f4hat = fmincon(@funf4,[-200,50],[],[],Aeq,beq);
 par.a4 = f4hat(1,1); par.b4 = f4hat(1,2);
 
-
+%Save the parameters
+save('Data/step23.mat', 'par')
 
 %% Create plots
 %First create the nonlinear function
@@ -84,14 +85,8 @@ hold off
 xlabel({'$u_d(k)$'},'Interpreter', 'latex')
 ylabel({'function value'},'Interpreter', 'latex')
 legend({'$f(u_d(k))$','$\hat{f}(u_d(k))$'},'Interpreter', 'latex')
-step23plot = gcf;
-%Save the plot
-saveas(step23plot,'Data/step23','eps')
-%Save the parameters
-save('Data/step23.mat', 'par')
 %% Functions
-% There is a function that returns the cost as function of x = [a_i,b_i].
-% fi reppresents the cost of the part i, of the affine piecewise function.
+% There is a function that returns the cost as function of x = [a_i,b_i]. f
 function f1 = funf1(x)
     a1 = x(1); b1 = x(2);
     fun1 = @(u,a1,b1) (u.^2 + 4 - (a1+b1*u)).^2;
