@@ -1,7 +1,8 @@
 %% Step 2.4
 close all
 clear all
-load('Data/step23.mat')
+
+load('Data/step23.mat') %Load the parameters from step 
 x0 = [par.a1 par.a2 par.a3 par.a4 par.b1 par.b2 par.b3 par.b4 5 6.5 11];
 parmin = fmincon(@funcost,x0,[],[],[],[],[],[],@nonlincon);
 par24.a1 = parmin(1); par24.a2 = parmin(2); par24.a3 = parmin(3); par24.a4 = parmin(4);
@@ -26,16 +27,8 @@ hold off
 xlabel({'$u_d(k)$'},'Interpreter', 'latex')
 ylabel({'function value'},'Interpreter', 'latex')
 legend({'$f(u_d(k))$','$\hat{f}(u_d(k))$'},'Interpreter', 'latex')
-%% Create table
 
-f = figure;
-uit = uitable(f);
-%uit.ColumName = {'a','b','u'};
-uit.Data = [par24.a1, par24.b1, par24.u1;
-     par24.a2, par24.b2, par24.u2;
-     par24.a3, par24.b3, par24.u3;
-     par24.a4, par24.b4, ' '];
- 
+
 %% Save the data
 step24plot = gcf;
 %Save the plot
@@ -43,6 +36,8 @@ saveaspdf(step24plot,'Latex/images/step24')
 %Save the parameters
 save('Data/step24.mat', 'par')
 %% Functions
+%This function computes the cost, it is a function of all the variables
+%that have to be optimized
 function cost = funcost(x)
     syms ud
     f1 = piecewise(0<=ud<2, ud^2+4,...
@@ -61,9 +56,10 @@ function cost = funcost(x)
    
    cost = double(int((f1-f2)^2,ud,0,15));
 end
+%The nonlinear constraints
 function [c,ceq] = nonlincon(x)
-    c = [];
-    ceq = [x(1)+x(5)*x(9) - (x(2)+x(6)*x(9));
+    c = []; %There are no inequality constraints
+    ceq = [x(1)+x(5)*x(9) - (x(2)+x(6)*x(9)); %There are some equality constraints
            x(2)+x(6)*x(10) - (x(3)+x(7)*x(10));
            x(3)+x(7)*x(11) - (x(4)+x(8)*x(11))];
 end
