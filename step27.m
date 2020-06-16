@@ -46,7 +46,7 @@ duineq = [-blkdiag([u1-M;u1+eps], [u2-M;u2+eps], [u3-M;u3+eps]), zeros(6,4)];
 A.d = 1;
 %Create the B matrices
 B.d1 = 0;
-B.d2 = -[zeros(4,1); (par.a1-par.a2); (par.a2-par.a3); (par.a3-par.a4);(par.a4)]';
+B.d2 = -[zeros(3,1); (par.a1-par.a2); (par.a2-par.a3); (par.a3-par.a4);(par.a4)]';
 B.d3 = -[(par.b1 - par.b2); (par.b2 - par.b3); (par.b3 - par.b4); (par.b4)]';
 B.d4 = Ts*Rf;
 %Create the E and g matrices
