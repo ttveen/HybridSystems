@@ -1,1 +1,16 @@
+In Step 1.1 a description of a adaptive cruise control (ACC) system will be given and in Step 1.2 the system will be described as a hybrid automaton. 
+
 \subsection*{Step 1.1}
+Adaptive cruise control (ACC) is a more advanced version of the standard cruise control. ACC is able to control the car's speed and following distance to the car in front without communicating between the each other while the standard cruise control only controlled the speed without taking into account the distance to the car in front. The controller aims to keep the speed of the car equal to the set reference speed but may choose to slow down when the distance to the next car is lower than the set reference distance, this happens when the car in front suddenly brakes or when a car shifts into your lane.
+Every car manufacturer implements different features into their ACC but some of the basic% features are:
+\begin{itemize}
+    % \item If the set speed button is pressed the ACC turns on with the current speed as the reference speed
+    % \item If the distance to the next car is lower then a certain reference, slow down
+    % \item If the current speed is slower then the reference speed and the distance to the next car is greater then the reference distance, try to accelerate back to the reference speed.
+    % \item If the driver brakes or pushes the off button, turn of the ACC.
+    
+    \item If the set speed button is pressed the ACC turns on with the current speed as the reference speed
+    \item If the distance to the next car is lower then a certain reference, slow down
+    \item If the current speed is slower then the reference speed and the distance to the next car is greater then the reference distance, try to accelerate back to the reference speed.
+    \item If the driver brakes or pushes the off button, turn of the ACC.
+\end{itemize}

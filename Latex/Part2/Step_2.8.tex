@@ -1,0 +1,47 @@
+\subsection*{Step 2.8}
+The cost function $J(k)$ 
+\begin{align*}
+    J(k) &= \sum^{N_p-1}_{j=0} ( \sum^{N_b-}_{i=1}W_{b,i}|\Delta s_{b,i}(k+j)| + W_d|\Delta s_{d}(k+j)|\\
+    &- W_{\text{fuel}}(x_d(l+N_p) - x_d(k) - W_e\sum^{N_b-}_{i=1}(x_{b,i}(k+N_p) - x_{b,i}(k))\\
+    &+ \sum^{N_p-1}_{j=0} P_{\text{imp}}(k+j)C_e(k+j)
+\end{align*}
+contains $|\Delta s_{b,i}(k+j)|$ and $W_d|\Delta s_{d}(k+j)|$. The absolute value is not a linear term, so the optimisation problem is not a linear programming problem. The problem can be recast into a linear programming problem by introducing a dummy variable $p$ and some constraints on the dummy variable. The first line of the cost function becomes
+\begin{align*}
+   \min_{p_i} &\sum^{N_p-1}_{j=0} (W_dp_1(k+j) + W_{b,1}p_2(k+j) + W_{b,2}p_3(k+j))\\
+   \text{s.t.} \indent& -p_1(k+j) - s_d(k+j) + s_d(k+j-1) \leq 0 \indent \forall j > 0\\
+   & -p_1(k+j) + s_d(k+j) - s_d(k+j-1) \leq 0 \indent \forall j > 0\\
+   & -p_{2}(k+j) - s_{b,1}(k+j) + s_{b,1}(k+j-1) \leq 0 \indent \forall j > 0\\
+   & -p_{2}(k+j) + s_{b,1}(k+j) - s_{b,1}(k+j-1) \leq 0 \indent \forall j > 0\\
+   & -p_{3}(k+j) - s_{b,2}(k+j) + s_{b,2}(k+j-1) \leq 0 \indent \forall j > 0\\
+   & -p_{3}(k+j) + s_{b,2}(k+j) - s_{b,2}(k+j-1) \leq 0 \indent \forall j > 0\\
+   & -p_1(k+j) - s_d(k+j)  \leq - s_d(-1) \indent \forall j = 0\\
+   & -p_1(k+j) + s_d(k+j)  \leq s_d(-1) \indent \forall j = 0\\
+   & -p_2(k+j) - s_{b,1}(k+j)  \leq - s_{b,1}(-1) \indent \forall j = 0\\
+   & -p_2(k+j) + s_{b,1}(k+j)  \leq s_{b,1}(-1) \indent \forall j = 0\\
+   & -p_3(k+j) - s_{b,2}(k+j)  \leq - s_{b,2}(-1) \indent \forall j = 0\\
+   & -p_3(k+j) + s_{b,2}(k+j)  \leq s_{b,2}(-1) \indent \forall j = 0\\
+\end{align*}
+An extra constraint is also added for $P_{imp}$
+\begin{align}
+P_{\text{imp}} + u_d(k+j) + u_{b,1}(k+j) + u_{b,2}(k+j) = P_{\text{load}} \indent f\forall j\label{eq:step28_eqcons}
+\end{align}
+Since $p$ and $P_{\text{imp}}$ are new optimisation variables, they are included in $\tilde{V}(k)$, so 
+$$\tilde{V}(k) = \begin{bmatrix} \tilde{V}(k) \\ \tilde{p}_1(k) \\ \tilde{p}_2(k) \\ \tilde{p}_3(k)\\ \tilde{P}_{\text{imp}}(k) \end{bmatrix}$$
+Matrices $M_i$ and $F_i$ will have to adjusted accordingly, which comes down to adding zeros to the right side of or beneath the matrices, since the qualities do not depend on dummy variable $\tilde{p}_i(k)$ and $\tilde{P}_{\text{imp}}$. The cost function can be, just as the qualities, written in vector matrix form. The aim is to write the cost function as a linear function of $\tilde{V}(k)$.
+\begin{align*}
+    J(k) &= \underbrace{\begin{bmatrix} 0 & \dots  & W_d\mathbb{1} & W_{b,1}\mathbb{1} & W_{b,2}\mathbb{1} & 0\end{bmatrix}}_{W_1} \tilde{V}(k)\\
+    &+ \underbrace{\begin{bmatrix} W_{\text{fuel}} & W_e  & W_e & 0 & \dots &  -W_{\text{fuel}} & -W_e  & -W_e\end{bmatrix}}_{W_2} \tilde{x}(k) \\
+    &+ \underbrace{\begin{bmatrix} 0 & \dots  & 0 & \tilde{C}_e(k)^T & W_{b,2}\mathbb{1} \end{bmatrix}}_{C_1}\tilde{V}(k)
+\end{align*}
+$\tilde{x(k)}$ can be substituted by \ref{eq:step27_tildedyn}, so that $J(k)$ becomes a function of only $\tilde{V}(k)$.
+\begin{align*}
+    J(k) &= W_1\tilde{V}(k) + W_2(M_1\tilde{V}(k)+M_2(x(k)+M_2) + C_1\tilde{V}(k) + \tilde{P}_{\text{load}}^T\tilde{C}_e\\
+    &= (W_1 + W_2M_1 + C_1)\tilde{V}(k) + W_2M_2x(k) + W_2M_3 + \tilde{P}_{\text{load}}^T\tilde{C}_e
+\end{align*}
+Since the second part of the equation does not depend on $\tilde{V}(K)$, it does not influence the optimally, so the linear programming problem becomes
+\begin{align*}
+    \min_{\tilde{V}(k)} &(W_1 + W_2M_1 + C_1)\tilde{V}(k)\\
+    \text{s.t} \indent &F_1\tilde{V}(k) \leq F_2 + F_3x(k)
+\end{align*}
+$F_2$ consists of the right hand side of the constraints, and $F_3$ is the $F_3$ matrix from equation \ref{$eq:step27_F$} but with added zeros, corresponding to variables $p_i$ and $P_{\text{imp}}$. Note that the constraints \ref{eq:step28_eqcons} is a equality constraint, so $\leq$ becomes $=$.
+

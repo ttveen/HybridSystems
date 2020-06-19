@@ -1,4 +1,4 @@
-subsection*{Step 2.1}
+\subsection*{Step 2.1}
 \begin{table}[]
 \centering
 \begin{tabular}{clclclc}
@@ -12,12 +12,11 @@ Discharging efficiency &  & $\eta_d$ &  & CONSTANT &  & -
 \caption{Parameters related to the battery}
 \label{batteryParm}
 \end{table}
-
 The battery can be modelled as a discrete-time piecewise affine (PWA) system with the state being the energy stored in the battery and the input being the exchanged power from the perspective of the grid, which means that it has a negative sign when the battery is being charged and a positive sign when the battery is discharging energy to the grid. The model can then be constructed as follows
 \begin{equation*}
 f(x_b(k),u_b(k)) =\left\{\begin{matrix}
-x_b(k)-\eta_c T_s u_b(k), & \text{if } u_b(k) \leq 0 \\
-x_b(k)-\eta_d T_s u_b(k), & \text{if } u_b(k) > 0 
+x_b(k)-\eta_c T_s u_b(k), & \text{if } s_b(k) = 1 \\
+x_b(k)-\eta_d T_s u_b(k), & \text{if } s_b(k) = 0 
 \end{matrix}\right.
 \end{equation*}
 where $x_b(k) \in [0,\bar{x}_b]$ and $u_b(k) \in [\underbar{$u$}_b, \bar{u}_b]$.

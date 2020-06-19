@@ -1,0 +1,7 @@
+\subsection*{2.9}
+We tried to solve the problem with gurobi, but the problem was unbounded. Adding upper bounds on the vector $\tilde{V}(k)$ made the solution feasible, until $P_{\text{load}}$ was not zero anymore. We suspect our error is in the constraints, but we do not know if it is in the derivation of the MLD model, or a coding error in the Matlab file. We have also tried to use YALMIP for the MPC, and it performed better, but it had very long computation time when $C_e$ neared zero, more than an hour for a single timestep. For YALMIP we did not vectorise the MLD model.
+We have tried to find an error in our derivation and Matlab files, but we were unable to find one. Some things surprised us in our derivation, so it could be that the error lies there
+\begin{itemize}
+    \item The minimisation does not depend on the matrix $B_4$, since it disappears in our derivation because it does not depend on $\tilde{V}(k)$.
+    \item When we tried to substitude the constraint for $P_{\text{imp}}$ into the cost function, the optimal $\tilde{V}(k)$ did not depend on $P_{\text{load}}$, so we added it as an constraint. With this constraint, $P_{\text{load}}$ influenced the feasibility.
+\end{itemize}

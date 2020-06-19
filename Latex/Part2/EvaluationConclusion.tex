@@ -1,0 +1,25 @@
+\subsection*{Conclusion}
+\subsubsection*{Part 1}
+Adaptive cruise control is a system that is easily written as a hybrid automaton as it requires only 3 modes and one discrete state. 
+
+% There are probably many different ways of creating a hybrid automaton of a Adaptive cruise control system,
+
+% It could even be reduced to two nodes if the normal operation mode is left out and you start at $q_2$ and ...
+
+\subsubsection*{Part 2}
+Since we failed to simulate and compute the optimal control input, it is difficult to draw a conclusion about the performance of the MPC controller of this hybrid system. We have seen the potential of Model Predictive controllers in other situations, and we suspect that it is very much suited for hybrid systems, since MPC can deal with constraints, where most other control strategies cannot. Since the sampling time of this grid system is rather low, the MPC should not run into time issues due to computational complexity.
+
+\subsection*{Evaluation}
+\subsubsection*{Part 1}
+There are probably many different ways of creating a hybrid automaton of a Adaptive cruise control system, we managed to create one with 3 modes and one discrete state for turning the ACC on/off. This can probably be reduced even further by removing the normal operation mode ($q_1$) of the car and only describing the ACC part. But we decided that keeping mode $q_1$ 
+
+\subsubsection*{Part 2}
+This assignment gave us the insight in how to model event-based models. Part 2 of the assignment learned us how to cast a, for us more intuitive, piecewise affine model into a MLD model. It became clear that the MLD model is very well suited for MPC. The recasting of model is a tedious task that requires accuracy and precision. Representing the MLD model in vector-matrix form was new for us. After vectoring the matrices, we noticed that there were more unknown variables than $u$, $\delta$ and $z$, so we had to alter the $M_i$ and $F_i$ matrices. If a similar problem arises now, we would first consider what all the unknown variables are, before we start vectorising.\\
+\\
+Furthermore, we were unable to find our mistake. We should have had more care in ensuring our answers were correct. After the simulation failed, it was too late to find the mistake. Since there was a large amount of constraints and unknowns, it is very difficult to inspect the matrices and see if they are correct.\\
+\\
+Additionally, it became apparent how easy it is to approximate a nonlinear function with a piecewise affine function. Connecting the boundaries was also trivial, since it came down to adding some equality constraints.\\
+\\
+The most important thing learned for this assignment, is how many constraints there are for a relatively concise model of only three parts. A large part of the constraints are the result of the PWA function $\hat{f}$. Representing the MLD model with less decision and auxiliary variables would reduce the number of constraints, and thus the risk of a mistake. Taking the effort to use the most concise MLD model might take more time in creating the MLD model, but it is probably worth it, since it takes effort away later.\\
+\\
+All the code can be found in \cite{GIT}.
