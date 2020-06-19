@@ -26,15 +26,18 @@ P_load(51:Tfinal+Np) = 45;
 input.P_load = P_load(1:Np);
 x = input.x0;
 for k=1:Tfinal
-    input.x0 = x(:,k)
+    %Minimise for a certain state x
+    input.x0 = x(:,k);
+    
+    %Extract the inputs for the next horizon
     output = step28fun(input);
     input.sd_0 = output(3*Np + 9 - 2);
     input.sb1_0 = output(3*Np + 9 - 1);
     input.sb2_0 = output(3*Np + 9 - 0);
     input.P_load = P_load(k:k+Np-1); 
     input.Ce = 50 + 50*sin(pi*T_s*(k:k+Np-1)/12);
-%     input.x0 = output(1:3);
     
+    %Model the system
     x(:,k+1) = A*x(:,k)+B1*output(1:3)+B2*output(3*Np+1:3*Np+9)+B3*output(3*Np+9*Np+1:3*Np+9*Np+6)+B4;
     ud(k) = output(1);
     ub1(k) = output(2);
