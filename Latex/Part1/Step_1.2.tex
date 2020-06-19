@@ -61,10 +61,10 @@ $x \in \text{Inv}(q_1)$          &  & $x \in \text{Inv}(q_2)$ &  & $x \in \text{
 %     & G(q_2,q_0) \rightarrow q_{ACC} == 0 & R(q_2,q_0) \rightarrow q_{ACC} = 0,\ q_{RD} = 0 \\
 % \end{align*}
 \begin{align*}
-    & G(q_0,q_1) \rightarrow q_{ACC} == 1 &R(q_0,q_1) \rightarrow q_{ACC} = 1 \\
-    & G(q_1,q_0) \rightarrow q_{ACC} == 0 &R(q_1,q_0) \rightarrow q_{ACC} = 0 \\
-    & G(q_1,q_2) \rightarrow \Delta x \leq \Delta x_{ref} &R(q_1,q_2) \rightarrow x = [v, \Delta x]^T\\
-    & G(q_2,q_1) \rightarrow x_2 > \Delta x_{ref} \text{ or } x_1 \geq v_{ref} &R(q_2,q_1) \rightarrow x = v\\
-    & G(q_2,q_0) \rightarrow q_{ACC} == 0 &R(q_2,q_0) \rightarrow q_{ACC} = 0 \\
+    & G(q_1,q_2) \rightarrow q_{ACC} == 1 &R(q_1,q_2) \rightarrow q_{ACC} = 1 \\
+    & G(q_2,q_1) \rightarrow q_{ACC} == 0 &R(q_2,q_1) \rightarrow q_{ACC} = 0 \\
+    & G(q_2,q_3) \rightarrow \Delta x \leq \Delta x_{ref} &R(q_2,q_3) \rightarrow x = [v, \Delta x]^T\\
+    & G(q_3,q_2) \rightarrow x_2 > \Delta x_{ref} \text{ or } x_1 \geq v_{ref} &R(q_3,q_2) \rightarrow x = v\\
+    & G(q_3,q_1) \rightarrow q_{ACC} == 0 &R(q_3,q_1) \rightarrow q_{ACC} = 0 \\
 \end{align*}
 where the value of $q_{ACC}$ gets changed to $q_{ACC} = 1$ when on or set reference button has been pushed and changes to $q_{ACC} = 0$ when the driver brakes or pushes the off button. 
