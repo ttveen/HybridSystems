@@ -1,37 +1,66 @@
 \subsection*{Step 2.6}
-
+With the following constraints
 \begin{align*}
 & \underline{x}_D \leq x_d(k) \leq \Bar{x}_d \\
 & 0 \leq u_d(k) \leq \Bar{u}_d \\
 & \text{if } s_d(k) = 0 \Rightarrow \text{there is no power generation at time step } k 
 \end{align*}
-
+a general MLD model, as explained in Step 2.2, of the diesel generator will be derived from the PWA model created in the previous step.
+To start, the PWA approximation of the fuel consuption curve $\hat{f}(u_d)$ will be reconstructed as a MLD model by introducing 4 binary variables $\delta_i$ with $i = 1,\dots,3$ with corresponding inequalities below. $M$ denotes the upper bound on $u_d(k)$, adn $m$ denotes the lower bound on $u_d(k)$.
 \begin{align*}
-[\delta_1 = 1] \Leftrightarrow [u_d(k) \geq 0] \text{ true iff}
+[\delta_1 = 1] \Leftrightarrow [u_d(k) \leq u_1] \text{ true iff}
 &\left\{\begin{matrix*}[l]
-    -u_d(k) \leq 0 \\
-    u_d(k) - (u_1 + \epsilon)\delta_i(k) \leq -\epsilon
+    u_d(k) - (u_1 - M)\delta_1(k) \leq M \\
+    -u_d(k) - (u_1 + \epsilon)\delta_1(k) < -\epsilon - u_1
 \end{matrix*}\right. \\
-[\delta_2 = 1] \Leftrightarrow [u_d(k)-u_1 \geq 0] \text{ true iff}
+[\delta_2 = 1] \Leftrightarrow [u_d(k) \leq u2] \text{ true iff}
 &\left\{\begin{matrix*}[l]
-    -u_d(k) -u_1\delta_2(k) \leq -2u_1 \\
-    u_d(k) - (u_2 + \epsilon)\delta_i(k) \leq -\epsilon + u_1
+    u_d(k) - (u_2 - M)\delta_2(k) \leq M \\
+    -u_d(k) - (u_2 + \epsilon)\delta_2(k) < -\epsilon - u_1
 \end{matrix*}\right. \\
-[\delta_3 = 1] \Leftrightarrow [u_d(k)-u_2 \geq 0] \text{ true iff}
+[\delta_3 = 1] \Leftrightarrow [u_d(k) \leq u_3] \text{ true iff}
 &\left\{\begin{matrix*}[l]
-    -u_d(k) -u_2\delta_3(k) \leq -2u_2 \\
-    u_d(k) - (u_3 + \epsilon)\delta_i(k) \leq -\epsilon + u_2
+    u_d(k) - (u_3 - M)\delta_3(k) \leq M \\
+    -u_d(k) - (u_3 + \epsilon)\delta_3(k) < -\epsilon - u3
 \end{matrix*}\right. \\
-[\delta_4 = 1] \Leftrightarrow [u_d(k)-u_3 \geq 0] \text{ true iff}
-&\left\{\begin{matrix*}[l]
-    -u_d(k) -u_3\delta_4(k) \leq -2u_3 \\
-    u_d(k) - (\Bar{u}_d + \epsilon)\delta_i(k) \leq -\epsilon + u_3
-\end{matrix*}\right.
+% [\delta_4 = 1] \Leftrightarrow [u_d(k)-u_3 \geq 0] \text{ true iff}
+% &\left\{\begin{matrix*}[l]
+%     -u_d(k) -u_3\delta_4(k) \leq -2u_3 \\
+%     u_d(k) - (\Bar{u}_d + \epsilon)\delta_4(k) \leq -\epsilon
+% \end{matrix*}\right.
 \end{align*}
+With these inequalities, $\hat{f}(u_d)$ can now be written as the following MLD model.
+\begin{align}
+   \hat{f}(u_d(k),\delta_i(k)) &= \delta_1(k)(a_1+b_1u_d(k)) + (\delta_2(k)-\delta_1(k))(a_2+b_2u_d(k))\\ &+ (\delta_3(k) - \delta_2(k))(a_3+b_3u_d(k)) + (1-\delta_3(k))(a_4+b_4u_d(k)) \label{eq:step26_dynamics}
+\end{align}
+by substituting $\hat{f}(u_d)$ in equation \ref{eq:PWA25}. The multiplication of $s_d$ with $\delta_i$ result in three more decision variables and nine additional constraints. $s_d(k)\delta_i(k)$ creates the new decision variable $\delta_{di}$, with the constraints
+\begin{align*}
+    -s_d + \delta_{di} \leq 0 \indent \forall i = [1,2,3]\\
+    -\delta_i + \delta_{di} \leq 0 \indent \forall i = [1,2,3]\\
+    s_d + \delta_i + \delta_{di} \leq 1 \indent \forall i = [1,2,3]
+\end{align*}
+The multiplication of $\delta_{di}(k)$ with $u_d(k)$ results in three new auxiliary variables $z_i(k)$, for which the following sixteen inequalities should hold
+\begin{align*}
+    z_i - M\delta_{di} \leq 0  \indent \forall i = [1,2,3]\\
+    -z_i + m\delta_{di} \leq 0  \indent \forall i = [1,2,3]\\
+    z_i - u_d -m\delta_{di} \leq -m \indent \forall i = [1,2,3]\\
+    -z_i + u_d + M\delta_{di} \leq M  \indent \forall i = [1,2,3]\\
+\end{align*}
+There are two additional constraints on the state $x_d(k)$
+\begin{align*}
+    -x_d &\leq 0\\
+x_d &\leq \bar{x}_d
+\end{align*}
+The dynamics of \ref{eq:step26_dynamics} can be recast into general MLD form
+\begin{align*}
+    \hat{f}(u_d(k),\delta(k),z(k)) &= x_d(k) - \begin{bmatrix} 0 & 0 & 0 & (a_1-a_2) & (a_2-a_3) & (a_3-a_4) & a_4 \end{bmatrix}\delta(k)\\ &- \begin{bmatrix} (b_1-b_2) & (b_2-b_3) & (b_3-b_4) & b_4 \end{bmatrix}z(k)  - T_sR_f
+\end{align*}
+where $\delta(k) = \begin{bmatrix} \delta_1 & \delta_2 & \delta_3 & \delta_{d1} & \delta_{d2} & \delta_{d3} & \delta_{d4} & s_d \end{bmatrix}^T$ and $z(k) = \begin{bmatrix} z_1 & z_2 & z_3 & z_4 \end{bmatrix}^T$ 
+The in total 33 constraints can also be cast into general MLD form, but are presented explicitly in this from, since the space is limited. They are created in the Matlab files. 
 
-$$
-\hat{f}(u_d(k)) = \delta_1(a_1+b1u_d(k)) + \delta_2(a_2+b2u_d(k)) + \delta_3(a_3+b3u_d(k)) + \delta_4(a_4+b4u_d(k)) 
-$$
+    
+
+% the final MLD model describing the level of fuel in the generator's tank is obtained.
 
 % $$
 % [\delta_2 = 1] \Leftrightarrow [u_1-u_d(k) \leq 0] \text{ true iff }

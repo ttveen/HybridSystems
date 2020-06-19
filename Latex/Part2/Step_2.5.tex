@@ -1,8 +1,8 @@
 \subsection*{Step 2.5}
 A discrete-time PWA model of the diesel generator's fuel tank can be constructed, where the state is the fuel level in the tank and the input is the generated power. The fuel tank is constantly being refuelled with a constant rate of $R_f$ kg/h and a switching signal $s_d$ that indicates the on/off operational mode of the generator. The model can then be constructed as follows
-$$
-f(x_d(k),u_d(k)) = x_d(k) + T_sR_f - s_d(k)\hat{f}(u_d(k))
-$$
+\begin{equation}
+f(x_d(k),u_d(k)) = x_d(k) + T_sR_f - s_d(k)\hat{f}(u_d(k)) \label{eq:PWA25}
+\end{equation}
 with $T_s$ a time step and
 $$
 \hat{f}\left(u_{\mathrm{d}}(k)\right)=\left\{\begin{array}{ll}
@@ -12,4 +12,4 @@ a_{3}+b_{3} u_{\mathrm{d}}(k) & \text { if } u_{2} \leq u_{\mathrm{d}}(k)<u_{3} 
 a_{4}+b_{4} u_{\mathrm{d}}(k) & \text { if } u_{3} \leq u_{\mathrm{d}}(k) \leq 15
 \end{array}\right.
 $$
-where the values of $a_i$ and $b_i$ for $i \in \{1,2,3,4\}$ are determined in Step 2.3 where the values of $u_{1,2,3}$ where also given. 
+where the values of $a_i$ and $b_i$ for $i \in \{1,2,3,4\}$ are given in table \ref{tab:2.4table} and the values of $u_1$, $u_2$ and $u_3$ are given in the problem description of Step 2.3.

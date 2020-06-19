@@ -1,1 +1,70 @@
 \subsection*{Step 1.2}
+
+The ACC can be described as a Hybrid automaton $H$ with $H = (Q,X,f,\text{Init},\text{Inv},E,G,R)$ where
+\begin{itemize}
+    \item $Q$ is a set consisting of a discrete states $\{q_{ACC}\}$ and the modes $\{q_1,q_2,q_3\}$
+    \item $X \in \R^2$ is the set of continuous states of the car which is equal to the current speed $v$ (m/s) and/or the distance to the next car $\Delta x$ (m)
+    \item $f$ is the system dynamics depending on $Q$ and $X$
+    \item Init is the set of initial states of $Q$ and $X$
+    \item Inv describes the conditions on $X$
+    \item E is the set of edges
+    \item G is the set of guard conditions
+    \item R is the set of reset maps
+\end{itemize}
+In Figure \ref{fig:AutomataDiag} a representation of this ACC Hybrid Automaton is shown, where in $q_0$ the car is in normal operation with ACC turned off ($q_{ACC} = 0$), in $q_1$ the car maintains the reference speed and in $q_2$ the car maintains the correct distance with the car in front.  more details about the modes can be found in Table \ref{tab:modeInfo}.
+\begin{table}[ht]
+\centering
+\caption{Mode information}
+
+\begin{tabular}{|c|c|c|c|c|}
+\cline{1-1} \cline{3-3} \cline{5-5}
+$q_1$                            &  & $q_2$                   &  & $q_3$                   \\ \cline{1-1} \cline{3-3} \cline{5-5} 
+Start: $(q_0,x_0)\in\text{Init}$ &  & $r = v_{ref}$           &  & $r = \Delta x_{ref}$    \\
+$q_{ACC} = 0$                    &  & $q_{ACC} = 1$           &  & $q_{ACC} = 1$           \\
+$x = v$                          &  & $x = v$                 &  & $x = [v, \Delta x]^T$   \\
+$\dot{x}=f(q_1,x)$               &  & $\dot{x}=f(q_2,x)$      &  & $\dot{x}=f(q_3,x)$      \\
+$x \in \text{Inv}(q_1)$          &  & $x \in \text{Inv}(q_2)$ &  & $x \in \text{Inv}(q_3)$ \\ \cline{1-1} \cline{3-3} \cline{5-5} 
+\end{tabular}
+
+\label{tab:modeInfo}
+\end{table}
+
+\begin{figure}[ht]
+    \centering
+    
+    \begin{tikzpicture}[shorten >=1pt,node distance=5cm,auto]
+        \tikzstyle{every state}=[fill={rgb:black,1;white,10}]
+
+            \node[state,initial]    (q_1)                   {$q_1$};
+            \node[state]            (q_2) [right of=q_1]    {$q_2$};
+            \node[state]            (q_3) [below of=q_2]    {$q_3$};
+            
+            \path[->]
+            (q_1) edge [bend left] node[pos=.2,sloped] {$G(q_0,q_1)$} node[pos=.8,sloped] {$R(q_0,q_1)$}   (q_2)
+            (q_2) edge [bend left] node[pos=.2,sloped] {$G(q_1,q_0)$} node[pos=.8,sloped] {$R(q_1,q_0)$}   (q_1)
+                  edge [bend left] node[pos=.2,sloped] {$G(q_1,q_2)$} node[pos=.75,sloped] {$R(q_1,q_2)$}   (q_3)
+            (q_3) edge [bend left] node[pos=.2,sloped] {$G(q_2,q_0)$} node[pos=.8,sloped] {$R(q_2,q_0)$}   (q_1)
+                  edge [bend left] node[pos=.25,sloped] {$G(q_2,q_1)$} node[pos=.8,sloped] {$R(q_2,q_1)$}   (q_2);
+            
+        \end{tikzpicture}
+    
+    \caption{ACC Hybrid Automaton diagram}
+    \label{fig:AutomataDiag}
+\end{figure}
+
+\noindent The Guard conditions and Reset maps are as follows
+% \begin{align*}
+%     & G(q_0,q_1) \rightarrow q_{ACC} == 1 & R(q_0,q_1) \rightarrow q_{ACC} = 1,\ q_{RV} = 1 \\
+%     & G(q_1,q_0) \rightarrow q_{ACC} == 0 & R(q_1,q_0) \rightarrow q_{ACC} = 0,\ q_{RV} = 0 \\
+%     & G(q_1,q_2) \rightarrow x_2 \leq \Delta x_{ref} & R(q_1,q_2) \rightarrow  q_{RV} = 0,\ q_{RD} = 1 \\
+%     & G(q_2,q_1) \rightarrow x_2 > \Delta x_{ref} & R(q_2,q_1) \rightarrow q_{RV} = 1,\ q_{RD} = 0 \\
+%     & G(q_2,q_0) \rightarrow q_{ACC} == 0 & R(q_2,q_0) \rightarrow q_{ACC} = 0,\ q_{RD} = 0 \\
+% \end{align*}
+\begin{align*}
+    & G(q_0,q_1) \rightarrow q_{ACC} == 1 &R(q_0,q_1) \rightarrow q_{ACC} = 1 \\
+    & G(q_1,q_0) \rightarrow q_{ACC} == 0 &R(q_1,q_0) \rightarrow q_{ACC} = 0 \\
+    & G(q_1,q_2) \rightarrow \Delta x \leq \Delta x_{ref} &R(q_1,q_2) \rightarrow x = [v, \Delta x]^T\\
+    & G(q_2,q_1) \rightarrow x_2 > \Delta x_{ref} \text{ or } x_1 \geq v_{ref} &R(q_2,q_1) \rightarrow x = v\\
+    & G(q_2,q_0) \rightarrow q_{ACC} == 0 &R(q_2,q_0) \rightarrow q_{ACC} = 0 \\
+\end{align*}
+where the value of $q_{ACC}$ gets changed to $q_{ACC} = 1$ when on or set reference button has been pushed and changes to $q_{ACC} = 0$ when the driver brakes or pushes the off button. 

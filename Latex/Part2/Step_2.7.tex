@@ -1,0 +1,39 @@
+\subsection*{Step 2.7}
+A system with several parts can be stacked. The matrices corresponding to the diesel model and batteries are represented as $A_{d}$, $B_{i_{d}}$ $E_{i_{d}}$, $g_{i_{d}}$, and $A_{bj}$, $B_{i_{bj}}$ $E_{i_{bj}}$, $g_{i_{bj}}$ respectively. $_{bj}$ corresponds to the $j^{th}$ battery. The dynamics of a diesel generator and two batteries become
+\begin{align*}
+    \begin{bmatrix} x_d(k+1)\\ x_{b1}(k+1)\\x_{b1}(k+1)\end{bmatrix} &= \begin{bmatrix} A_d & 0 & 0\\ 0 & A_{b1} & 0\\ 0 & 0 & A_{b2}\end{bmatrix}\begin{bmatrix} x_d(k)\\ x_{b1}(k)\\x_{b2}(k)\end{bmatrix}
+    + \begin{bmatrix} B_{1_{d}} & 0 & 0\\ 0 & B_{1_{b1}} & 0\\ 0 & 0 & B_{1_{b2}}\end{bmatrix}\begin{bmatrix} u_d(k)\\ u_{b1}(k)\\u_{b2}(k)\end{bmatrix} \\
+    &+ \begin{bmatrix} B_{2_{d}} & 0 & 0\\ 0 & B_{2_{b1}} & 0\\ 0 & 0 & B_{2_{b2}}\end{bmatrix}\begin{bmatrix} \delta_d(k)\\ \delta_{b1}(k)\\\delta_{b2}(k)\end{bmatrix}
+    + \begin{bmatrix} B_{3_{d}} & 0 & 0\\ 0 & B_{3_{b1}} & 0\\ 0 & 0 & B_{3_{b2}}\end{bmatrix}\begin{bmatrix} z_d(k)\\ z_{b1}(k)\\z_{b2}(k)\end{bmatrix} 
+    + \begin{bmatrix} B_{5_{d}}\\ B_{5_{b1}}\\B_{5_{b2}}\end{bmatrix}
+\end{align*}
+Similarly for the constraints
+\begin{align*}
+    &\begin{bmatrix} E_{1_{d}} & 0 & 0\\ 0 & E_{1_{b1}} & 0\\ 0 & 0 & E_{1_{b2}}\end{bmatrix}
+    \begin{bmatrix} x_d(k)\\ x_{b1}(k)\\x_{b2}(k)\end{bmatrix}
+    + \begin{bmatrix} E_{2_{d}} & 0 & 0\\ 0 & E_{2_{b1}} & 0\\ 0 & 0 & E_{2_{b2}}\end{bmatrix}\begin{bmatrix} u_d(k)\\ u_{b1}(k)\\u_{b2}(k)\end{bmatrix} \\
+    + &\begin{bmatrix} E_{3_{d}} & 0 & 0\\ 0 & E_{3_{b1}} & 0\\ 0 & 0 & E_{3_{b2}}\end{bmatrix}\begin{bmatrix} \delta_d(k)\\ \delta_{b1}(k)\\\delta_{b2}(k)\end{bmatrix}
+    + \begin{bmatrix} E_{4_{d}} & 0 & 0\\ 0 & E_{4_{b1}} & 0\\ 0 & 0 & E_{4_{b2}}\end{bmatrix}\begin{bmatrix} z_d(k)\\ z_{b1}(k)\\z_{b2}(k)\end{bmatrix} 
+    \leq \begin{bmatrix} g_{5_{d}}\\ g_{5_{b1}}\\g_{5_{b2}}\end{bmatrix}
+\end{align*}
+These equations can be rewritten in vector-matrix form
+\setcounter{MaxMatrixCols}{20}
+\begin{align}
+    \underbrace{\begin{bmatrix} x(k+1)\\ x(k+2)\\\vdots\\x(k+l)\end{bmatrix}}_{\tilde{x}(k)} &=  \underbrace{\begin{bmatrix*}
+    B_1 & 0 & \dots & 0 &                   B_2 & 0 & \dots & 0 &                   B_3  & 0 & \dots & 0\\
+    AB_1& B_1 &  & \vdots &                 AB_2& B_2 &  & \vdots &                 AB_3 & B_3 &  & \vdots\\
+    \vdots&  & \ddots & 0 &                 \vdots&  & \ddots & 0 &                 \vdots &  & \ddots & 0\\
+    A^{l}B_1&  A^{l-1}B_1 & \dots &  B_1 & A^{l}B_2 &  A^{l-1}B_2 & \dots &  B_2 & A^{l}B_3 &  A^{l-1}B_3 & \dots &  B_3\end{bmatrix*}}_{M_1}\tilde{V}(k)\nonumber\\
+    &+ \underbrace{\begin{bmatrix} A\\A^2\\\vdots\\A^{l+1}\end{bmatrix}}_{M_2}x(k) +  \underbrace{\begin{bmatrix} I_3\\A+I_3\\\vdots\\A^{l} + A^{l-1} \dots + 1 \end{bmatrix}}_{M_3}B_4 \label{eq:step27_tildedyn}
+\end{align}
+where $\tilde{V}(k)$ denotes all the unknowns
+$$
+    \tilde{V}(k)  =\begin{bmatrix} u(k)& \dots& u(k+l)& \delta(k)& \dots& \delta(k+l)& z(k) & \dots & z(k+l)\end{bmatrix}^T
+$$
+The constraints become 
+\setcounter{MaxMatrixCols}{12}
+\begin{gather}
+    \underbrace{\begin{bmatrix} E_1A^{l-1}B_1 &\dots& E_1B1 & E_2 & E_1A^{l-1}B_2 & \dots & E_1B_2 & E_3 & E_1A^{l-1}B_3 & \dots & E_1B_3 & E_4 \end{bmatrix}}_{F_1} \tilde{V}(k)\nonumber\\
+    + \underbrace{E_1A^l}_{F_3}x(k)\leq g_5 \label{$eq:step27_F$}
+\end{gather}
+This matrix-vector notation allows for optimisation algorithms, since these algorithms often use the form $Fx\leq b$ .

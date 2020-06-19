@@ -12,7 +12,9 @@
 
 %% Useful packages
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage[toc,page]{appendix}
 \setlength{\marginparwidth }{2cm}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
@@ -26,7 +28,12 @@
 \usepackage[square,sort,comma,numbers]{natbib}
 \usepackage{xcolor}
 \usepackage{mathtools}
+\usepackage{bbold}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata,positioning}
+\usepackage{dsfont}
 
+\newcommand{\R}{\mathbb{R}}
 \definecolor{darkgreen}{rgb}{0.0, 0.4, 0.0}
 
 %%%%%%%% DOCUMENT %%%%%%%%
@@ -42,10 +49,10 @@
 \textsc{\LARGE Delft University of Technology}\\[1cm]
 
 % Document info
-\textsc{\Large Networked and Distributed Control Systems}\\[0.2cm]
-\textsc{\large (SC42100)}\\[1cm] 										% Course Code
+\textsc{\Large Modeling and Control of Hybrid Systems}\\[0.2cm]
+\textsc{\large (SC42075)}\\[1cm] 										% Course Code
 \HRule \\[0.8cm]
-{ \huge \bfseries Assignment: Homework Problem Set 2}\\[0.7cm]								% Assignment
+{ \huge \bfseries Assignment 2020}\\[0.7cm]								% Assignment
 \HRule \\[2cm]
 \large
 \emph{Authors:}\\
@@ -72,6 +79,11 @@ Maarten ten Voorde (4590740)\\[1.5cm]													% Author info
 \input{Latex/Part2/Step_2.4}
 \input{Latex/Part2/Step_2.5}
 \input{Latex/Part2/Step_2.6}
+\input{Latex/Part2/Step_2.7}
+\input{Latex/Part2/Step_2.8}
+\input{Latex/Part2/step_2.9}
+\input{Latex/Part2/Step_2.10}
+\input{Latex/Part2/EvaluationConclusion}
 
 
 %%%%%%%% EXTRA TIPS %%%%%%%%
@@ -83,8 +95,11 @@ Maarten ten Voorde (4590740)\\[1.5cm]													% Author info
 %%\end{figure}
 
 
-\newpage
+%\newpage
 \bibliographystyle{apacite}
 \bibliography{ref.bib}
 
+\begin{appendices}
+\input{}
+\end{appendices}
 \end{document}
